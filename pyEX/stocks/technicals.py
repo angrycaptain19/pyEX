@@ -170,58 +170,60 @@ def technicals(
     if indicator not in _INDICATORS:
         raise PyEXception("indicator must be in {}".format(_INDICATORS))
 
-    if range != "1d":
-        if range not in _RANGE_CHART:
-            raise PyEXception("Range must be in {}".format(_RANGE_CHART))
+    if range != "1d" and range not in _RANGE_CHART:
+        raise PyEXception("Range must be in {}".format(_RANGE_CHART))
 
     base_url = "stock/{}/indicator/{}?range={}".format(symbol, indicator, range)
 
     # no argument
-    if indicator in (
-        "abs",
-        "acos",
-        "ad",
-        "add",
-        "ao",
-        "asin",
-        "atan",
-        "avgprice",
-        "bop",
-        "ceil",
-        "cos",
-        "cosh",
-        "crossany",
-        "crossover",
-        "div",
-        "emv",
-        "exp",
-        "floor",
-        "ln",
-        "log10",
-        "marketfi",
-        "medprice",
-        "mul",
-        "nvi",
-        "obv",
-        "pvi",
-        "round",
-        "sin",
-        "sinh",
-        "sqrt",
-        "sub",
-        "tan",
-        "tanh",
-        "todeg",
-        "torad",
-        "tr",
-        "trunc",
-        "typprice",
-        "wad",
-        "wcprice",
-        "willr",
+    if (
+        indicator
+        in (
+            "abs",
+            "acos",
+            "ad",
+            "add",
+            "ao",
+            "asin",
+            "atan",
+            "avgprice",
+            "bop",
+            "ceil",
+            "cos",
+            "cosh",
+            "crossany",
+            "crossover",
+            "div",
+            "emv",
+            "exp",
+            "floor",
+            "ln",
+            "log10",
+            "marketfi",
+            "medprice",
+            "mul",
+            "nvi",
+            "obv",
+            "pvi",
+            "round",
+            "sin",
+            "sinh",
+            "sqrt",
+            "sub",
+            "tan",
+            "tanh",
+            "todeg",
+            "torad",
+            "tr",
+            "trunc",
+            "typprice",
+            "wad",
+            "wcprice",
+            "willr",
+        )
+        and (input1 or input2 or input3 or input4)
     ):
-        if input1 or input2 or input3 or input4:
-            raise PyEXception("Indicator {} takes no arguments".format(indicator))
+        raise PyEXception("Indicator {} takes no arguments".format(indicator))
 
     # 1 argument
     if indicator in (

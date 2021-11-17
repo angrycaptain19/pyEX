@@ -84,9 +84,8 @@ def chart(
     if date:
         date = _strOrDate(date)
 
-    if range is not None and range != "1d":
-        if range not in _RANGE_CHART:
-            raise PyEXception("Range must be in {}".format(_RANGE_CHART))
+    if range is not None and range != "1d" and range not in _RANGE_CHART:
+        raise PyEXception("Range must be in {}".format(_RANGE_CHART))
 
     # Assemble params
     params = {}
@@ -195,14 +194,13 @@ def chartDF(
     df = _toDatetime(pd.DataFrame(c))
     if range is not None and range != "1d":
         _reindex(df, "date")
+    elif not df.empty and "date" in df.columns and "minute" in df.columns:
+        df.set_index(["date", "minute"], inplace=True)
+    elif not df.empty and "date" in df.columns:
+        _reindex(df, "date")
+    elif not df.empty:
+        # Nothing to do
+        ...
     else:
-        if not df.empty and "date" in df.columns and "minute" in df.columns:
-            df.set_index(["date", "minute"], inplace=True)
-        elif not df.empty and "date" in df.columns:
-            _reindex(df, "date")
-        elif not df.empty:
-            # Nothing to do
-            ...
-        else:
-            df = pd.DataFrame()
+        df = pd.DataFrame()
     return df

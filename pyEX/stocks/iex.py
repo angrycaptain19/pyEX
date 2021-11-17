@@ -707,20 +707,18 @@ def iexHist(date=None, token="", version="stable", format="json"):
 
     if date is None:
         return _get("hist", token=token, version=version, format=format)
-    else:
-        date = _strOrDate(date)
-        return _get("hist?date=" + date, token=token, version=version, format=format)
+    date = _strOrDate(date)
+    return _get("hist?date=" + date, token=token, version=version, format=format)
 
 
 @wraps(iexHist)
 async def iexHistAsync(date=None, token="", version="stable", format="json"):
     if date is None:
         return await _get("hist", token=token, version=version, format=format)
-    else:
-        date = _strOrDate(date)
-        return await _getAsync(
-            "hist?date=" + date, token=token, version=version, format=format
-        )
+    date = _strOrDate(date)
+    return await _getAsync(
+        "hist?date=" + date, token=token, version=version, format=format
+    )
 
 
 @wraps(iexHist)

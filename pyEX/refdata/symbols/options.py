@@ -61,11 +61,11 @@ def optionsSymbols(
 
 @wraps(optionsSymbols)
 def optionsSymbolsDF(symbol="", *args, **kwargs):
-    if symbol:
-        df = pd.DataFrame(optionsSymbols(symbol, *args, **kwargs))
-    else:
-        df = json_normalize(optionsSymbols(*args, **kwargs)).T
-    return df
+    return (
+        pd.DataFrame(optionsSymbols(symbol, *args, **kwargs))
+        if symbol
+        else json_normalize(optionsSymbols(*args, **kwargs)).T
+    )
 
 
 @wraps(optionsSymbols)

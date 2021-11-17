@@ -445,19 +445,17 @@ def _checkPeriodLast(per, last):
     if per == "quarter":
         if last < 1 or last > 12:
             raise PyEXception("Last must be in [1, 12] for period 'quarter'")
-    else:
-        if last < 1 or last > 4:
-            raise PyEXception("Last must be in [1, 4] for period 'annual'")
+    elif last < 1 or last > 4:
+        raise PyEXception("Last must be in [1, 4] for period 'annual'")
 
 
 def _reindex(df, col):
     """internal"""
     if isinstance(col, list):
-        if all([c in df.columns for c in col]):
+        if all(c in df.columns for c in col):
             df.set_index(col, inplace=True)
-    else:
-        if col in df.columns:
-            df.set_index(col, inplace=True)
+    elif col in df.columns:
+        df.set_index(col, inplace=True)
     return df
 
 
@@ -523,12 +521,10 @@ def _quoteSymbols(symbols):
 
 
 def _timeseriesWrapper(kwargs, key=True, subkey=True):
-    if key:
-        if "key" in kwargs:
-            raise PyEXception("Cannot pass `key` kwarg to timeseries, already used")
-    if subkey:
-        if "subkey" in kwargs:
-            raise PyEXception("Cannot pass `subkey` kwarg to timeseries, already used")
+    if key and "key" in kwargs:
+        raise PyEXception("Cannot pass `key` kwarg to timeseries, already used")
+    if subkey and "subkey" in kwargs:
+        raise PyEXception("Cannot pass `subkey` kwarg to timeseries, already used")
 
 
 def _overrideFormat(kwargs):

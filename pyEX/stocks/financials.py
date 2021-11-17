@@ -55,11 +55,11 @@ def financials(
 
 def _financialsToDF(f):
     """internal"""
-    if f:
-        df = _reindex(_toDatetime(pd.DataFrame(f)), "reportDate")
-    else:
-        df = pd.DataFrame()
-    return df
+    return (
+        _reindex(_toDatetime(pd.DataFrame(f)), "reportDate")
+        if f
+        else pd.DataFrame()
+    )
 
 
 @wraps(financials)

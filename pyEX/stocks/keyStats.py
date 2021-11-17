@@ -93,11 +93,11 @@ def keyStats(symbol, stat="", token="", version="stable", filter="", format="jso
 
 def _statsToDF(s):
     """internal"""
-    if s:
-        df = _reindex(_toDatetime(json_normalize(s)), "symbol")
-    else:
-        df = pd.DataFrame()
-    return df
+    return (
+        _reindex(_toDatetime(json_normalize(s)), "symbol")
+        if s
+        else pd.DataFrame()
+    )
 
 
 @wraps(keyStats)

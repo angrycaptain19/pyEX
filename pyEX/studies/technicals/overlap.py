@@ -99,8 +99,11 @@ def ht_trendline(client, symbol, range="6m", col="close"):
     """
     df = client.chartDF(symbol, range)
 
-    build = {col: df[col].values}
-    build["ht-{}".format(col)] = t.HT_TRENDLINE(df[col].values.astype(float))
+    build = {
+        col: df[col].values,
+        "ht-{}".format(col): t.HT_TRENDLINE(df[col].values.astype(float)),
+    }
+
     return pd.DataFrame(build)
 
 
@@ -120,8 +123,11 @@ def kama(client, symbol, range="6m", col="close", period=30):
     """
     df = client.chartDF(symbol, range)
 
-    build = {col: df[col].values}
-    build["kama-{}".format(col)] = t.KAMA(df[col].values.astype(float), period)
+    build = {
+        col: df[col].values,
+        "kama-{}".format(col): t.KAMA(df[col].values.astype(float), period),
+    }
+
     return pd.DataFrame(build)
 
 
@@ -208,8 +214,13 @@ def midpoint(client, symbol, range="6m", col="close", period=14):
     """
     df = client.chartDF(symbol, range)
 
-    build = {col: df[col].values}
-    build["kama-{}".format(col)] = t.MIDPOINT(df[col].values.astype(float), period)
+    build = {
+        col: df[col].values,
+        "kama-{}".format(col): t.MIDPOINT(
+            df[col].values.astype(float), period
+        ),
+    }
+
     return pd.DataFrame(build)
 
 
@@ -229,8 +240,13 @@ def midpice(client, symbol, range="6m", col="close", period=14):
     """
     df = client.chartDF(symbol, range)
 
-    build = {col: df[col].values}
-    build["kama-{}".format(col)] = t.MIDPRICE(df[col].values.astype(float), period)
+    build = {
+        col: df[col].values,
+        "kama-{}".format(col): t.MIDPRICE(
+            df[col].values.astype(float), period
+        ),
+    }
+
     return pd.DataFrame(build)
 
 

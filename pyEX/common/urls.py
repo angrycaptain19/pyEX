@@ -244,11 +244,7 @@ def _postIEXCloudBase(
     """for iex cloud"""
     url = base_url.format(version=version) + url
 
-    if token_in_params:
-        params = {"token": token}
-    else:
-        params = {}
-
+    params = {"token": token} if token_in_params else {}
     if format != "json":
         params["format"] = format
 
@@ -297,11 +293,7 @@ async def _postIEXCloudAsyncBase(
 
     url = base_url.format(version=version) + url
 
-    if token_in_params:
-        params = {"token": token}
-    else:
-        params = {}
-
+    params = {"token": token} if token_in_params else {}
     if format != "json":
         params["format"] = format
 
@@ -497,8 +489,7 @@ class WSClient(object):
 
 def _stream(url, sendinit=None, on_data=print):
     """internal"""
-    cl = WSClient(url, sendinit=sendinit, on_data=on_data)
-    return cl
+    return WSClient(url, sendinit=sendinit, on_data=on_data)
 
 
 def _streamSSE(url, on_data=print, exit=None, nosnapshot=False):
@@ -515,13 +506,9 @@ def _streamSSE(url, on_data=print, exit=None, nosnapshot=False):
 
             try:
                 on_data(json.loads(data))
-            except PyEXStopSSE:
+            except (PyEXStopSSE, json.JSONDecodeError, KeyboardInterrupt):
                 # stop listening and return
                 return
-            except (json.JSONDecodeError,):
-                continue
-            except (KeyboardInterrupt,):
-                raise
             except Exception:
                 raise
 
