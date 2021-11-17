@@ -90,11 +90,11 @@ previous = yesterday
 @wraps(yesterday)
 def yesterdayDF(*args, **kwargs):
     y = yesterday(*args, **kwargs)
-    if y:
-        df = _reindex(_toDatetime(json_normalize(y)), "symbol")
-    else:
-        df = pd.DataFrame()
-    return df
+    return (
+        _reindex(_toDatetime(json_normalize(y)), "symbol")
+        if y
+        else pd.DataFrame()
+    )
 
 
 previousDF = yesterdayDF

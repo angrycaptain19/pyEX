@@ -83,10 +83,7 @@ def upcomingEvents(
 
 
 def _upcomingToDF(upcoming):
-    dfs = {}
-    for k, v in upcoming.items():
-        dfs[k] = _toDatetime(pd.DataFrame(v))
-    return dfs
+    return {k: _toDatetime(pd.DataFrame(v)) for k, v in upcoming.items()}
 
 
 @wraps(upcomingEvents)

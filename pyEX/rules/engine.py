@@ -123,12 +123,7 @@ class Condition(object):
 
         Note that this will only do partial validation, to avoid extra API calls
         """
-        if isinstance(val, Operator):
-            # already fine
-            ret = val
-        else:
-            ret = self.engine.operator(val)
-
+        ret = val if isinstance(val, Operator) else self.engine.operator(val)
         if self.left_value.type != ret.type:
             raise PyEXception(
                 "Input {} does not match operator {}".format(
@@ -243,14 +238,13 @@ class Rule(object):
         object construction, however some schema validation might require additional API calls,
         which is why this method is separated.
         """
-        if prompt:
-            if (
-                input(
-                    "Validating rule, this function may incur additional API usage...type q to quit"
-                )
-                == "q"
-            ):
-                return
+        if prompt and (
+            input(
+                "Validating rule, this function may incur additional API usage...type q to quit"
+            )
+            == "q"
+        ):
+            return
         for x in self._conditions + self._outputs + self._additionalKeys:
             x.validate()
 
@@ -282,8 +276,7 @@ class RulesEngine(object):
         raise PyEXception("Operator not found: {}".format(key))
 
     def operators(self):
-        for k in self._operators:
-            yield k
+        yield from self._operators
 
     def _constructNotifications(self):
         self._notifications = {}
@@ -297,8 +290,7 @@ class RulesEngine(object):
         raise PyEXception("Output not found: {}".format(key))
 
     def outputs(self):
-        for k in self._notifications:
-            yield k
+        yield from self._notifications
 
     def _constructInputs(self):
         self._inputs = {}
@@ -306,8 +298,7 @@ class RulesEngine(object):
             self._inputs[v["label"]] = Input(self, **v)
 
     def inputs(self):
-        for k in self._inputs:
-            yield k
+        yield from self._inputs
 
     def input(self, key):
         for k in self.inputs():

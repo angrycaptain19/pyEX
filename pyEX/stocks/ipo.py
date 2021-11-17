@@ -42,11 +42,11 @@ def ipoToday(token="", version="stable", filter="", format="json"):
 @wraps(ipoToday)
 def ipoTodayDF(*args, **kwargs):
     val = ipoToday(*args, **kwargs)
-    if val:
-        df = _reindex(_toDatetime(json_normalize(val, "rawData")), "symbol")
-    else:
-        df = pd.DataFrame()
-    return df
+    return (
+        _reindex(_toDatetime(json_normalize(val, "rawData")), "symbol")
+        if val
+        else pd.DataFrame()
+    )
 
 
 @_expire(hour=10)
@@ -72,8 +72,8 @@ def ipoUpcoming(token="", version="stable", filter="", format="json"):
 @wraps(ipoUpcoming)
 def ipoUpcomingDF(*args, **kwargs):
     val = ipoUpcoming(*args, **kwargs)
-    if val:
-        df = _reindex(_toDatetime(json_normalize(val, "rawData")), "symbol")
-    else:
-        df = pd.DataFrame()
-    return df
+    return (
+        _reindex(_toDatetime(json_normalize(val, "rawData")), "symbol")
+        if val
+        else pd.DataFrame()
+    )

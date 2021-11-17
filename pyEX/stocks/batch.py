@@ -75,11 +75,8 @@ def batch(
             "batch expects string or list of strings for symbols argument"
         )
 
-    if isinstance(fields, str) and "," not in fields:
-        fields = [fields]
-    elif isinstance(fields, str):
-        fields = fields.split(",")
-
+    if isinstance(fields, str):
+        fields = [fields] if "," not in fields else fields.split(",")
     for field in fields:
         if field not in _BATCH_TYPES:
             raise PyEXception("Unrecognized batch request field: {}".format(field))

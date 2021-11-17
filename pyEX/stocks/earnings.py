@@ -73,11 +73,11 @@ def earnings(
 
 def _earningsToDF(e):
     """internal"""
-    if e:
-        df = _reindex(_toDatetime(pd.DataFrame(e)), "EPSReportDate")
-    else:
-        df = pd.DataFrame()
-    return df
+    return (
+        _reindex(_toDatetime(pd.DataFrame(e)), "EPSReportDate")
+        if e
+        else pd.DataFrame()
+    )
 
 
 @wraps(earnings)

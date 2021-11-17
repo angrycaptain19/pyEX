@@ -49,8 +49,8 @@ def quote(symbol, token="", version="stable", filter="", format="json"):
 @wraps(quote)
 def quoteDF(*args, **kwargs):
     q = quote(*args, **kwargs)
-    if q:
-        df = _reindex(_toDatetime(json_normalize(q)), "symbol")
-    else:
-        df = pd.DataFrame()
-    return df
+    return (
+        _reindex(_toDatetime(json_normalize(q)), "symbol")
+        if q
+        else pd.DataFrame()
+    )

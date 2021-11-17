@@ -61,13 +61,9 @@ def estimates(
 
 def _estimatesToDF(f):
     """internal"""
-    if f:
-        df = _reindex(
+    return _reindex(
             _toDatetime(json_normalize(f, "estimates", "symbol")), "fiscalEndDate"
-        )
-    else:
-        df = pd.DataFrame()
-    return df
+        ) if f else pd.DataFrame()
 
 
 @wraps(estimates)
